@@ -1,0 +1,139 @@
+
+/* 🌌 Cosmic Background */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #000000, #1a1a2e, #3a0ca3);
+  background-attachment: fixed;
+  color: white;
+}
+
+/* 🔮 Mirror-Morphism Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  padding: 2rem;
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+}
+
+/* 🌠 Inputs */
+.neon-input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  color: white;
+  font-size: 1rem;
+}
+.neon-input:focus {
+  outline: none;
+  border: 1px solid #9333ea;
+  box-shadow: 0 0 15px rgba(147, 51, 234, 0.8);
+}
+
+/* 🚀 Cosmic Button */
+.cosmic-btn {
+  display: inline-block;
+  width: 100%;
+  padding: 12px;
+
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 8rem 2rem;
+  background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  color: white;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  font-size: 1.3rem;
+  color: #ccc;
+}
+
+/* Section */
+.section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.section p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  text-align: center;
+  color: #ddd;
+}
+
+/* Feature Cards */
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  flex: 1 1 250px;
+  max-width: 300px;
+  text-align: center;
+}
+.feature-card h3 {
+  margin: 1rem 0;
+  font-size: 1.5rem;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(0,0,0,0.6);
+  margin-top: 4rem;
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+/* Tabs & layout */
+.topbar { display:flex; justify-content:space-between; align-items:center; padding:1rem; margin:1rem auto; max-width:900px; }
+.tabs { display:flex; gap:10px; justify-content:center; margin: 1rem auto; }
+.tab-button { padding:10px 16px; border-radius:10px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.08); color:#fff; cursor:pointer; }
+.tab-button.active { outline:2px solid #9333ea; }
+
+/* Cards grid */
+.card-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem; margin-top:1rem; }
+.card { padding:1rem; border-radius:14px; background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); }
+
+/* HackMate */
+.swipe-card { display:flex; flex-direction:column; gap:10px; align-items:center; }
+.swipe-card .row { display:flex; gap:10px; width:100%; }
+.avatar { width:120px; height:120px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,0.4); }
+
+/* Chat */
+.chat-window { max-width: 800px; margin: 0 auto; }
+.chat-messages { display:flex; flex-direction:column; gap:8px; height: 280px; overflow:auto; margin-bottom: 10px; }
+.chat-msg { display:flex; }
+.chat-msg.you { justify-content:flex-end; }
+.chat-msg.you span { background: #3b82f6; }
+.chat-msg.bot span { background: rgba(255,255,255,0.12); }
+.chat-msg span { padding:8px 12px; border-radius: 12px; max-width: 70%; }
