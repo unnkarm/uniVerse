@@ -16,7 +16,7 @@ export default function Register() {
       const res = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       // If backend doesn’t return JSON properly, catch it here
