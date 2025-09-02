@@ -1,46 +1,68 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // ✅ prevent page refresh
+    setLoading(true);
+
     try {
-      const res = await fetch("http://localhost:5000/api/login", {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Login failed");
-      localStorage.setItem("uv_token", data.token);
-      localStorage.setItem("uv_user", JSON.stringify(data.user)); // keep name/email/id
-      navigate("/dashboard"); // ✅ redirect after login
+
+      if (!res.ok) {
+        throw new Error(data.msg || "❌ Login failed");
+      }
+
+      // ✅ Save JWT
+      localStorage.setItem("token", data.token);
+
+      alert("✅ Login successful!");
+      navigate("/dashboard");
     } catch (err) {
       alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="page-center">
       <div className="glass-card">
-        <h1>🌌 UniVerse Login</h1>
+        <h2>🔑 Login</h2>
         <form onSubmit={handleLogin}>
           <input
-            type="email" placeholder="Email" className="neon-input"
-            value={email} onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            placeholder="Email"
+            className="neon-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
-            type="password" placeholder="Password" className="neon-input"
-            value={password} onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            placeholder="Password"
+            className="neon-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
           />
-          <button className="cosmic-btn">Login</button>
+          <button className="cosmic-btn" disabled={loading}>
+            {loading ? "⏳ Logging in..." : "Login"}
+          </button>
         </form>
         <p style={{ marginTop: "1rem" }}>
-          New to UniVerse?{" "}
+          Not registered?{" "}
           <Link to="/register" style={{ color: "#9333ea", fontWeight: 600 }}>
             Register here
           </Link>
