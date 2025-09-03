@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UniVerse - Campus Team & Events</title>
+<style>
+  /* Reset & base */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #0d0c15;
+    color: #dedede;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+  }
+  a {
+    color: inherit; text-decoration: none; cursor: pointer;
+  }
+  a:focus, button:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid #916BFF;
+    outline-offset: 2px;
+  }
+  button {
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.5em 1.6em;
+    background: #7b62ff;
+    color: white;
+    box-shadow: 0 0 12px #7b62ff88;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  button:hover:not(:disabled),
+  button:focus:not(:disabled) {
+    background: #916bff;
+    box-shadow: 0 0 18px #916bffbb;
+  }
+  button:disabled {
+    background: #555;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+  h1, h2, h3, h4 {
+    margin: 0 0 0.5em 0;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+  }
+  p {
+    line-height: 1.5;
+  }
+  small {
+    opacity: 0.7;
+  }
+
+  /* Header Navigation */
+  header {
+    background: #0e0e1f;
+    padding: 0.6em 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0; z-index: 50;
+    box-shadow: 0 1px 12px #000000a0;
+  }
+  .logo {
+    font-weight: 900;
+    font-size: 1.8rem;
+    color: #f9f1a3;
+    user-select: none;
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 8px #7b62ffaa;
+  }
+  nav {
+    display: flex;
+    gap: 1.6em;
+  }
+  nav button {
+    all: unset;
+    cursor: pointer;
+    padding: 0.5em 1em;
+    border-radius: 1em;
+    font-weight: 600;
+    color: #8c8c8c;
+    background: transparent;
+    box-shadow: none;
+    transition: all 0.3s ease;
+    user-select: none;
+    white-space: nowrap;
+  }
+  nav button.active,
+  nav button:hover,
+  nav button:focus {
+    color: #7b62ff;
+    background: #1c1664;
+    box-shadow: 0 0 10px #7b62ffbb;
+  }
+  .profile-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+    background: #7b62ff;
+    padding: 0.4em 1.2em;
+    border-radius: 1.6em;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 0 16px #7b62ffcc;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .profile-btn:hover,
+  .profile-btn:focus {
+    background: #916bff;
+    box-shadow: 0 0 22px #916bffcc;
+  }
+  .profile-btn svg {
+    width: 1.2em; height: 1.2em;
+    fill: white;
+  }
+
+  /* Container for all content sections */
+  main {
+    flex-grow: 1;
+    padding: 2rem 1rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  section {
+    display: none;
+  }
+  section.active {
+    display: block;
+  }
+
+  /* Home Page Styles */
+  #home-section {
+    text-align: center;
+    padding-top: 5rem;
+  }
+  #home-section h1 {
+    font-size: 4rem;
+    color: #2a239f;
+    text-shadow:
+      0 0 15px #3d33dc,
+      0 0 30px #5a4acb,
+      0 0 50px #5039be;
+  }
+  #home-section p {
+    font-size: 1.25rem;
+    margin-top: 0.4em;
+    max-width: 360px;
+    margin-left: auto; margin-right: auto;
+    color: #cfcbcdcc;
+  }
+  #home-section button {
+    margin-top: 2.2em;
+    font-weight: 800;
+    font-size: 1.1rem;
+    padding: 0.8em 2.6em;
+    border-radius: 1.5em;
+    box-shadow: 0 0 30px #7b62ffcc;
+  }
+
+  /* Events Page */
+  #events-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 900;
+  }
+  .events-list {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  .event-card {
+    background: #1a1930;
+    border-radius: 1.2em;
+    padding: 1.4rem 1.8rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 0 14px #1d1a4b33;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+  }
+  .event-card h3 {
+    margin-bottom: 0.2em;
+    font-weight: 900;
+  }
+  .event-meta {
+    font-size: 0.88rem;
+    color: #a3a0c3cc;
+    line-height: 1.3;
+  }
+  .event-meta b {
+    color: #d0cffa;
+  }
+  .event-buttons {
+    margin-top: auto;
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.8rem;
+    justify-content: flex-end;
+  }
+  .event-buttons button.description-btn {
+    background: transparent;
+    box-shadow: none;
+    color: #c3bde0;
+    font-weight: 700;
+    padding: 0.3em 0.8em;
+    border-radius: 0.9em;
+    border: 2px solid transparent;
+    transition: all 0.25s ease;
+  }
+  .event-buttons button.description-btn:hover,
+  .event-buttons button.description-btn:focus {
+    border-color: #7b62ff;
+    color: #7b62ff;
+    outline: none;
+    box-shadow: 0 0 14px #7b62ffaa;
+  }
+  .event-buttons button.apply-btn {
+    min-width: 72px;
+  }
+
+  /* HackMate Page */
+  #hackmate-section h2 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin-bottom: 0.5em;
+    user-select: none;
+  }
+  #hackmate-section p.lead {
+    max-width: 400px;
+    margin: 0 auto 3rem auto;
+    font-size: 1.1rem;
+    color: #a497d2;
+    line-height: 1.4;
+    font-weight: 500;
+    user-select: none;
+  }
+  .hackmate-cards {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+  .hackmate-card {
+    background: #1a1930;
+    padding: 1.6rem 2rem;
+    border-radius: 1.2em;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    box-shadow: 0 0 25px #604fff60;
+  }
+  .hackmate-card svg {
+    width: 3.2rem; height: 3.2rem;
+    filter: drop-shadow(0 0 3px #7b62ffbb);
+  }
+  .hackmate-card h3 {
+    font-weight: 700;
+    user-select: none;
+    text-align: center;
+  }
+  .hackmate-card p {
+    font-size: 0.9rem;
+    color: #ada5cb;
+    user-select: none;
+    text-align: center;
+  }
+  .hackmate-card button {
+    margin-top: 0.4rem;
+    width: 140px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 3.5rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    color: #604fff;
+    font-weight: 900;
+    font-size: 1.6rem;
+    user-select: none;
+    text-align: center;
+  }
+  .stat-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #978fcbcc;
+    margin-top: 0.2em;
+    user-select: none;
+    text-align: center;
+  }
+
+  /* How It Works */
+  .how-it-works {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+  }
+  .how-step {
+    max-width: 140px;
+    text-align: center;
+    color: #8d89be;
+  }
+  .how-step strong {
+    display: block;
+    font-weight: 700;
+    color: #bdbbe8;
+    font-size: 1.1rem;
+    margin-bottom: 0.3em;
+  }
+  .how-step small {
+    font-size: 0.85rem;
+    user-select: none;
+  }
+
+  /* Register Page (Multi-step) */
+  #register-section {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  form {
+    background: #191726;
+    padding: 2rem 2.5rem;
+    border-radius: 1.2rem;
+    box-shadow: 0 0 32px #3118ff33;
+    color: #d6d0f0;
+  }
+
+  form h2 {
+    margin-bottom: 1.2rem;
+    font-weight: 900;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.25em;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  input[type=text],
+  input[type=email],
+  input[type=password],
+  textarea,
+  input[type=file] {
+    width: 100%;
+    padding: 0.6em 1em;
+    background: #11101e;
+    border: none;
+    color: #cccce7;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: #666688;
+  }
+  textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  input[type=file] {
+    padding: 0.3em 0.5em;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .form-row > div {
+    flex: 1 1 48%;
+  }
+  @media (max-width: 520px) {
+    .form-row {
+      flex-direction: column;
+    }
+    .form-row > div {
+      flex: 1 1 100%;
+    }
+  }
+
+  .socials-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+    gap: 1rem;
+  }
+
+  /* Buttons area */
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+
+  .btn-secondary {
+    background: #12101c;
+    color: #9a97be;
+    box-shadow: none;
+    padding: 0.5em 1.4em;
+    border-radius: 30px;
+    font-weight: 600;
+    border: 1.5px solid #3a3764;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .btn-secondary:hover,
+  .btn-secondary:focus {
+    background: #292748;
+    box-shadow: 0 0 8px #7b62ffcc;
+    color: #c3bbff;
+  }
+
+  /* Create Team Page */
+  #create-team-section form {
+    background: #191726;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem;
+    border-radius: 1.2rem;
+    box-shadow: 0 0 32px #3118ff33;
+  }
+  #create-team-section h2 {
+    margin-bottom: 1rem;
+  }
+  #create-team-section label {
+    font-weight: 600;
+    display: block;
+  }
+  #create-team-section input[type=text],
+  #create-team-section textarea {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.6em 1em;
+    margin-bottom: 1.2em;
+    background: #11101e;
+    border: none;
+    border-radius: 8px;
+    color: #d6d0f0;
+  }
+  #create-team-section textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  #create-team-section input[type=number] {
+    width: 100px;
+    font-size: 1rem;
+    padding: 0.6em 1em;
+    margin-bottom: 1.5em;
+    background: #11101e;
+    border: none;
+    border-radius: 8px;
+    color: #d6d0f0;
+  }
+  #create-team-section .form-actions {
+    justify-content: flex-start;
+  }
+
+  /* Find Team Page */
+  #find-team-section {
+    padding-top: 1rem;
+  }
+  #find-team-section table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  #find-team-section th, #find-team-section td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #2c2c3c;
+  }
+  #find-team-section th {
+    color: #9f9ad1;
+    font-weight: 700;
+    user-select: none;
+  }
+  #find-team-section td {
+    vertical-align: middle;
+    color: #cfcdfa;
+  }
+  #find-team-section td.status {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    padding: 0.25em 0.7em;
+    border-radius: 8px;
+    color: white;
+    user-select: none;
+    width: 64px;
+    text-align: center;
+  }
+  #find-team-section td.status.open {
+    background-color: #1b4c27;
+    box-shadow: 0 0 6px #2dac5aaa;
+  }
+  #find-team-section td.status.full {
+    background-color: #601a1a;
+    box-shadow: 0 0 6px #bb404046;
+  }
+  #find-team-section td.actions button {
+    background: #7b62ff;
+    min-width: 68px;
+    font-weight: 700;
+    padding: 0.3em 1em;
+    font-size: 0.85rem;
+    box-shadow: 0 0 14px #7b62ffaa;
+  }
+  #find-team-section td.actions button:hover,
+  #find-team-section td.actions button:focus {
+    background: #916bff;
+    box-shadow: 0 0 18px #916bffbb;
+    outline: none;
+  }
+
+  #find-team-section td.actions button[disabled] {
+    background: #555;
+    box-shadow: none;
+    cursor: not-allowed;
+  }
+  #find-team-section td.actions .add-choice {
+    background: #302636;
+    color: #9999cc;
+    min-width: auto;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.3em 0.5em;
+    margin-left: 0.5em;
+    border-radius: 8px;
+    box-shadow: none;
+    user-select: none;
+  }
+  #find-team-section td.actions .add-choice:hover,
+  #find-team-section td.actions .add-choice:focus {
+    background: #4f409e;
+    color: #b8b1ff;
+  }
+
+  #find-team-section .guidelines {
+    font-size: 0.8rem;
+    margin-top: 1.5rem;
+    line-height: 1.3;
+    color: #9999cc;
+  }
+  #find-team-section .guidelines strong {
+    display: block;
+    margin-bottom: 0.4rem;
+    user-select:none;
+  }
+  #find-team-section .guidelines p {
+    margin: 0.2em 0;
+    user-select:none;
+  }
+
+  /* Utility */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0,0,0,0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" aria-label="UniVerse logo">UniVerse</div>
+  <nav role="navigation" aria-label="Main menu">
+    <button id="nav-home" class="active" aria-current="page">Home</button>
+    <button id="nav-events">Events</button>
+    <button id="nav-hackmate">HackMate</button>
+    <button id="nav-register">Register</button>
+  </nav>
+  <button class="profile-btn" aria-label="My Profile" type="button" tabindex="0">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+    My Profile
+  </button>
+</header>
+<main>
+  <!-- Home Section -->
+  <section id="home-section" class="active" tabindex="0" aria-label="Home section">
+    <h1>UniVerse</h1>
+    <p>Discover Events, Form Teams, and Never Miss an Opportunity</p>
+    <button id="home-get-started" aria-describedby="home-description">Get Started</button>
+    <span id="home-description" class="sr-only">Go to events page</span>
+  </section>
+
+  <!-- Events Section -->
+  <section id="events-section" tabindex="-1" aria-label="Events calendar" role="region" aria-live="polite" aria-hidden="true">
+    <h2>Event Calendar</h2>
+    <div class="events-list">
+      <article class="event-card" id="event-hackathon">
+        <h3>Hackathon 2025</h3>
+        <p class="event-meta"><b>Date:</b> 15 Sep 2025 &bull; <b>By</b> Tech Club<br /> <b>Team Size:</b> 4–6</p>
+        <div class="event-buttons">
+          <button class="description-btn" data-event="hackathon" aria-expanded="false" aria-controls="desc-hackathon">Description</button>
+          <button class="apply-btn">Join</button>
+          <button class="apply-btn">Apply</button>
+        </div>
+        <div id="desc-hackathon" class="sr-only" aria-live="polite"></div>
+      </article>
+      <article class="event-card" id="event-aiworkshop">
+        <h3>AI Workshop</h3>
+        <p class="event-meta"><b>Date:</b> 22 Sep 2025 &bull; <b>By</b> AI Society<br /> Individual Event</p>
+        <div class="event-buttons">
+          <button class="description-btn" data-event="aiworkshop" aria-expanded="false" aria-controls="desc-aiworkshop">Description</button>
+          <button class="apply-btn">Apply</button>
+        </div>
+        <div id="desc-aiworkshop" class="sr-only" aria-live="polite"></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- HackMate Section -->
+  <section id="hackmate-section" tabindex="-1" aria-label="Hackmate team building">
+    <h2>HackMate</h2>
+    <p class="lead">Find your perfect team members or create your own team for hackathons and competitions</p>
+    <div class="hackmate-cards">
+      <div class="hackmate-card" role="region" aria-labelledby="find-team-title">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8" stroke="#7b62ff" stroke-width="1.5" fill="none" /><path d="M21 21l-4.35-4.35" stroke="#7b62ff" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <h3 id="find-team-title">Find a Team</h3>
+        <p>Browse available teams looking for members with your skills. Apply to join teams that match your expertise.</p>
+        <button id="open-find-team" aria-describedby="find-team-desc">Find Team</button>
+      </div>
+      <div class="hackmate-card" role="region" aria-labelledby="create-team-title">
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path fill="#7b62ff" d="M17 18h4v2h-4v-2zm0-4h4v2h-4v-2zm0-4h4v2h-4V10zM3 8v11h10v-2H5v-3h6v-2H5v-3h8V8H3z"/></svg>
+        <h3 id="create-team-title">Create a Team</h3>
+        <p>Start your own team and recruit talented members. Define your requirements and project vision.</p>
+        <button id="open-create-team" aria-describedby="create-team-desc">Create Team</button>
+      </div>
+    </div>
+
+    <div class="stats-row" role="region" aria-label="Hackmate statistics">
+      <div><div class="stat-item">150+</div><div class="stat-label">Active Teams</div></div>
+      <div><div class="stat-item">500+</div><div class="stat-label">Students Connected</div></div>
+      <div><div class="stat-item">50+</div><div class="stat-label">Successful Projects</div></div>
+    </div>
+
+    <div class="how-it-works" role="list" aria-label="Steps to use HackMate">
+      <div class="how-step" role="listitem">
+        <strong>1</strong>
+        <small>Create or Browse<br />Either create your own team or browse existing teams looking for members</small>
+      </div>
+      <div class="how-step" role="listitem">
+        <strong>2</strong>
+        <small>Apply &amp; Connect<br />Send applications to teams or review applications for your team</small>
+      </div>
+      <div class="how-step" role="listitem">
+        <strong>3</strong>
+        <small>Build Together<br />Form your team and start building amazing projects together</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- Register Section (Multi-step) -->
+  <section id="register-section" tabindex="-1" aria-label="User registration">
+    <form id="register-form" novalidate>
+      <!-- Step 1 user info -->
+      <div id="register-step-1">
+        <h2>Create your account</h2>
+        <div class="form-row">
+          <div>
+            <label for="full-name">Full Name* </label>
+            <input type="text" id="full-name" name="fullName" placeholder="e.g., Aritra Sen" required autocomplete="name" />
+          </div>
+          <div>
+            <label for="department">Department* </label>
+            <input type="text" id="department" name="department" placeholder="e.g., CSE" required autocomplete="organization" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="year-study">Year of Study* </label>
+            <input type="number" id="year-study" name="yearStudy" min="1" max="10" placeholder="e.g., 3" required />
+          </div>
+          <div>
+            <label for="college-id">Roll / College ID* </label>
+            <input type="text" id="college-id" name="collegeId" placeholder="e.g., 22CSE1234" required autocomplete="username" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="email">Email ID* </label>
+            <input type="email" id="email" name="email" placeholder="e.g., you@example.com" required autocomplete="email" />
+          </div>
+          <div>
+            <label for="password">Password* </label>
+            <input type="password" id="password" name="password" placeholder="********" required autocomplete="new-password" />
+          </div>
+        </div>
+        <label for="college-upload">Upload/Scan College ID (mandatory)</label>
+        <input type="file" id="college-upload" name="collegeUpload" accept="image/*,application/pdf" required aria-describedby="upload-note" />
+        <small id="upload-note" style="color:#a49de0;margin-bottom: 1rem;">Accepted image or PDF files. Required to verify your enrollment.</small>
+
+        <fieldset style="border:none;margin-bottom:1.4rem;padding:0;">
+          <legend style="font-weight:700;margin-bottom:0.6rem;">Socials (Optional)</legend>
+          <div class="socials-group">
+            <input type="url" id="social-linkedin" name="linkedin" placeholder="https://linkedin.com/in/.." />
+            <input type="url" id="social-github" name="github" placeholder="https://github.com/.." />
+            <input type="url" id="social-instagram" name="instagram" placeholder="https://instagram.com/.." />
+            <input type="url" id="social-facebook" name="facebook" placeholder="https://facebook.com/.." />
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="button" id="to-skill-step">Next: Add Skills</button>
+        </div>
+      </div>
+
+      <!-- Step 2 Skills - placeholder content, since screenshots do not show this -->
+      <div id="register-step-2" style="display:none;">
+        <h2>Add Skills (Coming Soon)</h2>
+        <p style="text-align:center;color:#706e93;">We will add skill selection here in the future.</p>
+        <div class="form-actions">
+          <button type="button" id="back-to-step-1" class="btn-secondary">Back</button>
+          <button type="submit">Finish Registration (dummy)</button>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <!-- Create Your Team Section -->
+  <section id="create-team-section" tabindex="-1" aria-label="Create your team">
+    <form id="create-team-form" novalidate>
+      <h2>Create Your Team</h2>
+      <label for="team-name">Team Name*</label>
+      <input type="text" id="team-name" name="teamName" placeholder="Enter your team name" required autocomplete="off" />
+      <label for="team-requirements">Requirements*</label>
+      <textarea id="team-requirements" name="teamRequirements" placeholder="What skills/roles are you looking for? (e.g., Frontend Developer, UI/UX Designer, Backend Developer)" required></textarea>
+      <label for="team-description">Team Description</label>
+      <textarea id="team-description" name="teamDescription" placeholder="Tell us about your team, project idea, or goals..."></textarea>
+      <label for="team-members">Maximum Team Members</label>
+      <input type="number" id="team-members" name="teamMembersMax" value="4" min="1" max="99" />
+      <div class="form-actions" style="margin-top:1.6rem;">
+        <button type="submit">Create Team</button>
+        <button type="button" id="back-from-create-team" class="btn-secondary">Back</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Find Your Team Section -->
+  <section id="find-team-section" tabindex="-1" aria-label="Find your team" style="max-width: 900px; margin: 0 auto;">
+    <h2>Find Your Team</h2>
+    <table aria-describedby="team-application-guidelines">
+      <thead>
+        <tr>
+          <th>Sl No.</th>
+          <th>Team Name</th>
+          <th>Requirements</th>
+          <th>Members</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="team-list-body" role="list">
+        <!-- Teams will be dynamically inserted here -->
+      </tbody>
+    </table>
+    <div id="team-application-guidelines" class="guidelines" role="region" aria-live="polite" tabindex="0">
+      <strong>Application Guidelines</strong>
+      <p>• You can apply to multiple teams, but can only join one</p>
+      <p>• Team leaders will review applications and contact selected members</p>
+      <p>• Use "Add Choice" to mark preferred teams for later application</p>
+      <p>• Check your notifications for application status updates</p>
+    </div>
+    <div style="margin-top:2rem; text-align:right;">
+      <button id="back-from-find-team" class="btn-secondary">Back</button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // SPA Navigation logic
+  const navHomeBtn = document.getElementById('nav-home');
+  const navEventsBtn = document.getElementById('nav-events');
+  const navHackMateBtn = document.getElementById('nav-hackmate');
+  const navRegisterBtn = document.getElementById('nav-register');
+  const homeGetStartedBtn = document.getElementById('home-get-started');
+  const openFindTeamBtn = document.getElementById('open-find-team');
+  const openCreateTeamBtn = document.getElementById('open-create-team');
+  const backFromCreateTeamBtn = document.getElementById('back-from-create-team');
+  const backFromFindTeamBtn = document.getElementById('back-from-find-team');
+
+  const sections = {
+    home: document.getElementById('home-section'),
+    events: document.getElementById('events-section'),
+    hackmate: document.getElementById('hackmate-section'),
+    register: document.getElementById('register-section'),
+    createTeam: document.getElementById('create-team-section'),
+    findTeam: document.getElementById('find-team-section'),
+  };
+
+  function setActiveSection(name) {
+    for (const secName in sections) {
+      const sec = sections[secName];
+      const isActive = secName === name;
+      sec.classList.toggle('active', isActive);
+      sec.setAttribute('aria-hidden', !isActive);
+      if (isActive) {
+        sec.focus();
+      }
+    }
+    // Update nav buttons active state & aria-current
+    navHomeBtn.classList.toggle('active', name === 'home');
+    navEventsBtn.classList.toggle('active', name === 'events');
+    navHackMateBtn.classList.toggle('active', name === 'hackmate');
+    navRegisterBtn.classList.toggle('active', name === 'register');
+
+    navHomeBtn.setAttribute('aria-current', name === 'home' ? 'page' : 'false');
+    navEventsBtn.setAttribute('aria-current', name === 'events' ? 'page' : 'false');
+    navHackMateBtn.setAttribute('aria-current', name === 'hackmate' ? 'page' : 'false');
+    navRegisterBtn.setAttribute('aria-current', name === 'register' ? 'page' : 'false');
+  }
+
+  // Nav button click handlers
+  navHomeBtn.addEventListener('click', () => setActiveSection('home'));
+  navEventsBtn.addEventListener('click', () => setActiveSection('events'));
+  navHackMateBtn.addEventListener('click', () => setActiveSection('hackmate'));
+  navRegisterBtn.addEventListener('click', () => setActiveSection('register'));
+  homeGetStartedBtn.addEventListener('click', () => setActiveSection('events'));
+
+  // HackMate card buttons
+  openFindTeamBtn.addEventListener('click', () => setActiveSection('findTeam'));
+  openCreateTeamBtn.addEventListener('click', () => setActiveSection('createTeam'));
+  backFromCreateTeamBtn.addEventListener('click', () => setActiveSection('hackmate'));
+  backFromFindTeamBtn.addEventListener('click', () => setActiveSection('hackmate'));
+
+  // Register form multi-step
+  const registerForm = document.getElementById('register-form');
+  const step1Div = document.getElementById('register-step-1');
+  const step2Div = document.getElementById('register-step-2');
+  const btnToSkillStep = document.getElementById('to-skill-step');
+  const btnBackToStep1 = document.getElementById('back-to-step-1');
+
+  btnToSkillStep.addEventListener('click', () => {
+    // Validate step 1 inputs
+    // Simple validation
+    const inputs = [...step1Div.querySelectorAll('input[required]')];
+    let valid = true;
+    inputs.forEach(i => {
+      i.setCustomValidity('');
+      if (!i.checkValidity()) valid = false;
+    });
+    if (!valid) {
+      inputs.forEach(i => i.reportValidity());
+      return;
+    }
+    step1Div.style.display = 'none';
+    step2Div.style.display = 'block';
+    step2Div.querySelector('button[type="submit"]').focus();
+  });
+  btnBackToStep1.addEventListener('click', () => {
+    step2Div.style.display = 'none';
+    step1Div.style.display = 'block';
+    btnToSkillStep.focus();
+  });
+  registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Registration submitted. (No backend implemented)');
+    registerForm.reset();
+    step2Div.style.display = 'none';
+    step1Div.style.display = 'block';
+    setActiveSection('home');
+  });
+
+  // Create Team form
+  const createTeamForm = document.getElementById('create-team-form');
+  createTeamForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Simple validation
+    if (!createTeamForm.teamName.value.trim() || !createTeamForm.teamRequirements.value.trim()) {
+      alert('Please fill out required fields: Team Name and Requirements.');
+      return;
+    }
+    alert('Team created successfully. (No backend implemented)');
+    createTeamForm.reset();
+    setActiveSection('hackmate');
+  });
+
+  // Handle event description toggles in Events section
+  const descriptionButtons = document.querySelectorAll('.event-buttons button.description-btn');
+  descriptionButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const event = btn.dataset.event;
+      const descDiv = document.getElementById(`desc-${event}`);
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      if (expanded) {
+        descDiv.textContent = '';
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = 'Description';
+      } else {
+        // Show dummy description text
+        let descText = '';
+        if (event === 'hackathon') {
+          descText = 'Join us for Hackathon 2025, a 48-hour challenge to build innovative tech projects in teams of 4 to 6 members. Perfect for tech enthusiasts looking to create, collaborate, and compete.';
+        } else if (event === 'aiworkshop') {
+          descText = 'The AI Workshop will introduce you to machine learning and AI fundamentals. This is an individual event providing hands-on experience with cutting-edge tools and techniques.';
+        }
+        descDiv.textContent = descText;
+        btn.setAttribute('aria-expanded', 'true');
+        btn.textContent = 'Hide Description';
+      }
+    });
+  });
+
+  // Find Team Section logic
+  const teamListBody = document.getElementById('team-list-body');
+
+  // Sample teams data
+  const teamsData = [
+    {
+      id: 1,
+      name: 'Code Crushers',
+      requirements: 'Frontend Developer, UI/UX Designer',
+      membersCurrent: 2,
+      membersMax: 4,
+      status: 'open',
+      applied: false,
+      hasAddedChoice: false,
+    },
+    {
+      id: 2,
+      name: 'Tech Titans',
+      requirements: 'Backend Developer, Data Scientist',
+      membersCurrent: 3,
+      membersMax: 5,
+      status: 'open',
+      applied: false,
+      hasAddedChoice: false,
+    },
+    {
+      id: 3,
+      name: 'Innovation Squad',
+      requirements: 'Full Stack Developer, Mobile Developer',
+      membersCurrent: 1,
+      membersMax: 3,
+      status: 'open',
+      applied: true,
+      hasAddedChoice: false,
+    },
+    {
+      id: 4,
+      name: 'Digital Dynamos',
+      requirements: 'Frontend Developer, Backend Developer',
+      membersCurrent: 4,
+      membersMax: 4,
+      status: 'full',
+      applied: false,
+      hasAddedChoice: false,
+    },
+    {
+      id: 5,
+      name: 'Quantum Coders',
+      requirements: 'AI/ML Engineer, Python Developer',
+      membersCurrent: 2,
+      membersMax: 6,
+      status: 'open',
+      applied: false,
+      hasAddedChoice: false,
+    },
+  ];
+
+  function renderTeams() {
+    teamListBody.innerHTML = '';
+    teamsData.forEach((team, idx) => {
+      const tr = document.createElement('tr');
+      tr.dataset.teamId = team.id;
+
+      // Sl No.
+      const tdIndex = document.createElement('td');
+      tdIndex.textContent = idx + 1;
+      tr.appendChild(tdIndex);
+
+      // Team Name + status badge
+      const tdName = document.createElement('td');
+      tdName.textContent = team.name + ' ';
+      const statusSpan = document.createElement('span');
+      statusSpan.textContent = team.status === 'open' ? 'Open' : 'Full';
+      statusSpan.className = `status ${team.status}`;
+      statusSpan.setAttribute('aria-label', team.status === 'open' ? 'Team open for members' : 'Team is full');
+      tdName.appendChild(statusSpan);
+      tr.appendChild(tdName);
+
+      // Requirements
+      const tdReq = document.createElement('td');
+      tdReq.textContent = team.requirements;
+      tr.appendChild(tdReq);
+
+      // Members count
+      const tdMem = document.createElement('td');
+      tdMem.textContent = `${team.membersCurrent}/${team.membersMax}`;
+      tr.appendChild(tdMem);
+
+      // Actions
+      const tdActions = document.createElement('td');
+      tdActions.className = 'actions';
+
+      // Apply button
+      const btnApply = document.createElement('button');
+      btnApply.textContent = team.applied ? 'Applied' : 'Apply';
+      btnApply.disabled = team.status === 'full' || team.applied;
+      btnApply.style.minWidth = '68px';
+      btnApply.type = 'button';
+      btnApply.addEventListener('click', () => {
+        if (team.applied) return;
+        // Check if already applied elsewhere (only allow apply to one team)
+        const alreadyApplied = teamsData.some(t => t.applied);
+        if (alreadyApplied) {
+          alert('You have already applied to a team. You can only apply to one team.');
+          return;
+        }
+        team.applied = true;
+        alert(`You have successfully applied to team "${team.name}".`);
+        renderTeams();
+      });
+
+      tdActions.appendChild(btnApply);
+
+      // Add Choice button (only if not applied)
+      if (!team.applied && team.status !== 'full') {
+        const btnAddChoice = document.createElement('button');
+        btnAddChoice.textContent = 'Add Choice';
+        btnAddChoice.type = 'button';
+        btnAddChoice.className = 'add-choice';
+        btnAddChoice.disabled = team.hasAddedChoice;
+        btnAddChoice.addEventListener('click', () => {
+          if (team.hasAddedChoice) return;
+          team.hasAddedChoice = true;
+          alert(`Team "${team.name}" added to your preferred choices.`);
+          renderTeams();
+        });
+        tdActions.appendChild(btnAddChoice);
+      }
+
+      // If applied, disable add choice button by default
+
+      tr.appendChild(tdActions);
+      teamListBody.appendChild(tr);
+    });
+  }
+
+  // Initial render teams list
+  renderTeams();
+
+  // Accessibility: Focus management on section change
+  function trapFocusIn(element) {
+    const focusableEls = element.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+    if (focusableEls.length === 0) return; // nothing to trap
+    const firstFocusable = focusableEls[0];
+    const lastFocusable = focusableEls[focusableEls.length - 1];
+
+    function trap(e) {
+      if (e.key === 'Tab' || e.keyCode === 9) {
+        if (e.shiftKey) /* shift + tab */ {
+          if (document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        } else /* tab */ {
+          if (document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        }
+      }
+    }
+    element.addEventListener('keydown', trap);
+    return () => element.removeEventListener('keydown', trap);
+  }
+
+  // Trap focus for the active sections except home (where main focus is on button)
+  function manageFocusTrap() {
+    let cleanup = null;
+    const activeSection = Object.values(sections).find(sec => sec.classList.contains('active'));
+    if (activeSection && activeSection.id !== 'home-section') {
+      cleanup = trapFocusIn(activeSection);
+    }
+    return cleanup;
+  }
+
+  let cleanupTrap = null;
+  function onSectionChange() {
+    if (cleanupTrap) cleanupTrap();
+    cleanupTrap = manageFocusTrap();
+  }
+
+  // Override setActiveSection to add focus trap
+  const originalSetActiveSection = setActiveSection;
+  setActiveSection = (name) => {
+    originalSetActiveSection(name);
+    onSectionChange();
+  };
+
+  // Initialize focus trap for default active
+  onSectionChange();
+</script>
+</body>
+</html>
+
